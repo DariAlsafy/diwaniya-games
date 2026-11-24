@@ -92,7 +92,7 @@ function setupMafia(r) {
   const mafiaCount = n >= 10 ? 3 : n >= 7 ? 2 : 1;
   const roles = new Map();
   ids.forEach((id, i) => roles.set(id, i < mafiaCount ? 'mafia' : i === mafiaCount ? 'doctor' : i === mafiaCount + 1 ? 'cop' : 'citizen'));
-  r.m = { roles, alive: new Set(ids), ready: new Set(), acts: new Map(), votes: new Map(), checks: new Map(), dawn: null, out: null, winner: null, mafiaCount };
+  r.m = { roles, alive: new Set(ids), ready: new Set(), acts: new Map(), votes: new Map(), checks: new Map(), killedBy: new Map(), dawn: null, out: null, winner: null, mafiaCount };
   r.round = 1;
 }
 
@@ -124,7 +124,11 @@ function resolveNight(r) {
   let victim = null;
   if (tally.size) { const max = Math.max(...tally.values()); victim = shuffle([...tally].filter(([, c]) => c === max).map(([t]) => t))[0]; }
   const wasSaved = !!victim && victim === saved;
-  if (victim && !wasSaved) M.alive.delete(victim);
+  if (victim && !wasSaved) {
+    M.alive.delete(victim);
+    // نحفظ منو من المافيا اختاره… الضحية بس اللي يشوفهم
+    M.killedBy.set(victim, { day: r.round, killers: [...M.acts].filter(([pid, t]) => t === victim && M.alive.has(pid) && M.roles.get(pid) === 'mafia').map(([pid]) => pid) });
+  }
   M.dawn = { victim: wasSaved ? null : victim, saved: wasSaved };
   M.acts.clear();
   finishMafiaCheck(r);
@@ -315,6 +319,7 @@ function view(r, pid) {
         team: role === 'mafia' ? [...M.roles].filter(([id, rl]) => rl === 'mafia' && id !== pid).map(([id]) => pinfo(id)) : [],
         checks: (M.checks.get(pid) || []).map(c => ({ ...pinfo(c.target), mafia: c.mafia, day: c.day })),
         myAct: M.acts.get(pid) || null, myVote: M.votes.get(pid) || null,
+        killedBy: M.killedBy.has(pid) ? M.killedBy.get(pid).killers.map(pinfo) : null,
       };
     }
   }
