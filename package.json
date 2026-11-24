@@ -1,0 +1,8 @@
+{
+  "name": "diwaniya-games",
+  "version": "0.1.0",
+  "description": "ديوانية الألعاب — ألعاب جماعية كويتية للربع",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}

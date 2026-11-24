@@ -1,0 +1,62 @@
+:root {
+  --bg1: #170b35; --bg2: #3a0f4f; --card: rgba(255,255,255,.08); --card2: rgba(255,255,255,.15);
+  --text: #fff7ec; --muted: #cbb9e6; --gold: #ffc23d; --pink: #ff4d6d; --green: #2ee59d; --blue: #4cc9f0; --line: rgba(255,255,255,.18);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Cairo', system-ui, sans-serif; color: var(--text); overflow-x: hidden;
+  background: linear-gradient(130deg, #170b35, #3a0f4f, #12245a, #4a0d3a, #170b35);
+  background-size: 400% 400%; animation: bgmove 24s ease infinite; background-attachment: fixed;
+}
+@keyframes bgmove { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+button { font-family: inherit; cursor: pointer; border: 0; }
+input { font-family: inherit; }
+.hidden { display: none !important; }
+
+/* إيموجيات طايرة بالخلفية */
+#floaters { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+#floaters span { position: absolute; bottom: -80px; font-size: 2.4rem; opacity: .13; animation: floatUp linear infinite; filter: blur(.3px); }
+@keyframes floatUp { from { transform: translateY(0) rotate(0); } to { transform: translateY(-120vh) rotate(360deg); } }
+.layer { position: relative; z-index: 1; }
+
+.logo { font-weight: 900; letter-spacing: -1px; line-height: 1.1; }
+.logo b { background: linear-gradient(90deg, #ffc23d, #ff8a3d, #ff4d6d); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bob { display: inline-block; animation: bob 2.4s ease-in-out infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-10px) rotate(6deg); } }
+
+.btn { background: linear-gradient(180deg, #ffd25e, #ffae00); color: #2a1300; font-weight: 900; border-radius: 18px; padding: 14px 28px; font-size: 1.2rem; box-shadow: 0 6px 0 #b86f00, 0 10px 30px rgba(255,180,0,.35); transition: transform .08s, box-shadow .08s; }
+.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b86f00; }
+.btn:disabled { filter: grayscale(1) brightness(.7); cursor: not-allowed; }
+.btn.ghost { background: var(--card2); color: var(--text); box-shadow: none; font-size: 1rem; padding: 10px 18px; backdrop-filter: blur(8px); }
+.btn.alt { background: linear-gradient(180deg, #7ee8fa, #4cc9f0); box-shadow: 0 6px 0 #1f7fa0, 0 10px 30px rgba(76,201,240,.35); color: #062033; }
+
+.glass { background: var(--card); border: 1.5px solid var(--line); border-radius: 26px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 10px; border-radius: 999px; background: var(--card); border: 2px solid var(--c, #fff); font-weight: 700; transition: all .3s; backdrop-filter: blur(6px); }
+.chip .av { font-size: 1.25em; line-height: 1; }
+.chip.done { background: var(--c); color: #170b35; transform: translateY(-3px); box-shadow: 0 6px 20px color-mix(in srgb, var(--c) 50%, transparent); }
+.chip.off { opacity: .35; }
+
+.pop { animation: pop .5s cubic-bezier(.2,1.6,.4,1) both; }
+@keyframes pop { from { transform: scale(.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.fade { animation: fade .5s both; }
+@keyframes fade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.zoomin { animation: zoomin .8s cubic-bezier(.2,1.4,.4,1) both; }
+@keyframes zoomin { from { transform: scale(3) rotate(-25deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.shake { animation: shake .5s; }
+@keyframes shake { 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
+
+.blank { display: inline-block; min-width: 4ch; border-bottom: 4px dashed var(--gold); margin: 0 .2em; color: var(--gold); }
+.toast { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: var(--pink); color: #fff; font-weight: 800; padding: 12px 22px; border-radius: 14px; z-index: 99; box-shadow: 0 10px 30px rgba(0,0,0,.4); animation: fade .3s; max-width: calc(100% - 32px); text-align: center; }
+
+.confetti { position: fixed; top: -20px; width: 12px; height: 18px; animation: fall linear forwards; z-index: 50; pointer-events: none; border-radius: 3px; }
+@keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+
+/* ألوان خيارات الإيموجي */
+.o0 { --oc: #ff4d6d; } .o1 { --oc: #3a86ff; } .o2 { --oc: #ffb703; } .o3 { --oc: #06d6a0; }
+
+/* سفاري يعبّي الخانات تلقائي ويخليها صفرا — نخليها على ثيم اللعبة */
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 100px #241148 inset !important; -webkit-text-fill-color: #fff7ec !important; caret-color: #fff7ec; transition: background-color 9999s;
+}
